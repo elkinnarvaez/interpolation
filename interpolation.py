@@ -32,7 +32,7 @@ def newton_interpolation(t, y):
     n = len(t)
     A = build_newton_matrix(n, n, t, t)
     b = np.array([[e] for e in y], dtype='float')
-    return forward_substitution(A, b)
+    return np.linalg.solve(A, b)
 
 def piecewise_interpolation(t, y):
     """

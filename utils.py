@@ -1,7 +1,7 @@
 import  numpy as np
 import pandas as pd
 
-def get_dataframe(data, country, start_year, end_year):
+def get_dataframe_wbdata(data, country, start_year, end_year):
     country_index = 0
     countries = data["Country Name"]
     index_values = list()
@@ -16,6 +16,9 @@ def get_dataframe(data, country, start_year, end_year):
     y = np.array(y)
     df = pd.DataFrame(data = y, index = index_values)[0]
     return df
+
+def get_dataframe_covid(data):
+    return data["C4"]
     
 def get_axes_values(data):
     t = list()
@@ -40,7 +43,8 @@ def filter_by_odd_pos(a):
             odd.append(a[i])
     return odd
 
-def train_test_splitting(t, y):
+def train_test_splitting(t, y, hop):
+    n = len(t)
     t_train, y_train, t_test, y_test = list(), list(), list(), list()
     t_train, y_train = filter_by_even_pos(t), filter_by_even_pos(y)
     t_test, y_test = filter_by_odd_pos(t), filter_by_odd_pos(y)

@@ -34,5 +34,7 @@ def piecewise_evaluation(t, t_train, X):
             if(t[i] >= t_train[j] and t[i] <= t_train[j + 1]):
                 break
             j += 1
+        if(j == n - 1):
+            j = n - 2
         b[i] = X[j][0] + X[j][1]*t[i]
     return b
