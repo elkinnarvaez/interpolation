@@ -30,14 +30,14 @@ def main():
     # Interpolation computation
     valid = False
     interpolation_method = False
-    print("1. Monomial interpolation (using gauss)")
+    print("1. Monomial interpolation (using gauss method)")
     print("2. Lagrange interpolation")
     print("3. Newton interpolation")
     print("4. Piecewise interpolation")
     while(not valid):
         interpolation_method = int(input("Please choose the method you want to work with: "))
         if(interpolation_method < 1 or interpolation_method > 4):
-            print("Invalid option")
+            print("Invalid option. Please try again.")
         else:
             valid = True
     start = time.time()
@@ -50,7 +50,6 @@ def main():
         x = newton_interpolation(t_train, y_train)
     else:
         x = piecewise_interpolation(t_train, y_train)
-        print(x)
     end = time.time()
     elapsed = end - start
 
@@ -96,10 +95,10 @@ def main():
         # Need to graph every piece continuously
         plt.figure(figsize=(11, 6))
         for i in range(len(t_train) - 1):
-            t_continuous = list(np.linspace(t[i], t[i + 1], num = 100))
+            t_continuous = list(np.linspace(t_train[i], t_train[i + 1], num = 100))
             y_continuous = piecewise_evaluation(t_continuous, t_train, x)
             transform(t_continuous, 1960)
-            plt.plot(t_continuous, y_continuous, c='g')
+            plt.plot(t_continuous, y_continuous, c='g') # Continuous polynomial
         transform(t_train, 1960)
         transform(t_test, 1960)
         transform(t, 1960)
@@ -109,7 +108,7 @@ def main():
     plt.xticks(t, rotation=90)
     plt.legend()
     plt.xlabel(f'Year')
-    plt.ylabel(f'Death rate (per 1000 people)')
+    plt.ylabel(f'Y axis')
     # x0, xmax = plt.xlim()
     y0, ymax = plt.ylim()
     plt.text(2002, y0 + (ymax - y0)/5, "Mean error: {:e} \nStandard deviation: {:e}".format(mean_error, error_std), bbox=dict(boxstyle="round",

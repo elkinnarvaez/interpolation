@@ -17,7 +17,7 @@ def l(j, ti, t_train, n):
     for k in range(n):
         if(k != j):
             denominator = denominator * (t_train[j] - t_train[k])
-    return numerator/denominator
+    return round(numerator/denominator, 2)
 
 def build_lagrange_matrix(n, m, t, t_train):
     A = np.array([[None for _ in range(n)] for _ in range(m)], dtype='float')

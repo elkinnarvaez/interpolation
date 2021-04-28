@@ -29,8 +29,9 @@ def piecewise_evaluation(t, t_train, X):
     b = [None for _ in range(m)]
     for i in range(m):
         j = 0
+        # Find the place where t[i] fits
         while(j < n - 1):
-            if(t[i] >= t_train[j] and t[i] < t_train[j + 1]):
+            if(t[i] >= t_train[j] and t[i] <= t_train[j + 1]):
                 break
             j += 1
         b[i] = X[j][0] + X[j][1]*t[i]
