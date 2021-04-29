@@ -98,7 +98,14 @@ def main():
         transform(t, -1960)
 
     # Train test splitting
-    t_train, y_train, t_test, y_test = train_test_splitting(t, y, 0.2)
+    valid = False
+    while(not valid):
+        p_training = float(input("Please indicate the percentage of the data you want to use during the training stage (a value between 0 and 1): "))
+        if(p_training <= 0 or p_training >= 1):
+            print("Invalid option. Please try again.")
+        else:
+            valid = True
+    t_train, y_train, t_test, y_test = train_test_splitting(t, y, p_training)
 
     # Interpolation computation
     start = time.time()
@@ -148,8 +155,8 @@ def main():
         transform(t_continuous, 1960)
         transform(t, 1960)
         plt.figure(figsize=(11, 6))
-        plt.scatter(t_train, y_train, label = "Training values") # Training values
-        plt.scatter(t_test, y_test, label = "Testing values") # Testing values
+        plt.scatter(t_train, y_train, label = "Training values", s = 25) # Training values
+        plt.scatter(t_test, y_test, label = "Testing values", s = 25) # Testing values
         # plt.scatter(t_test, y_estimate, label = "Estimate values")
         plt.plot(t_continuous, y_continuous, label = "Continuous polynomial", c='g') # Continuous polynomial
     else:
@@ -165,24 +172,27 @@ def main():
             transform(t_train, 1960)
             transform(t_test, 1960)
             transform(t, 1960)
-        plt.scatter(t_train, y_train, label = "Training values") # Training values
-        plt.scatter(t_test, y_test, label = "Testing values") # Testing values
+        if(dataset_name == "covid"):
+            plt.scatter(t_train, y_train, label = "Training values", s = 15) # Training values
+            plt.scatter(t_test, y_test, label = "Testing values", s = 15) # Testing values
+        else:
+            plt.scatter(t_train, y_train, label = "Training values", s = 25) # Training values
+            plt.scatter(t_test, y_test, label = "Testing values", s = 25) # Testing values
         # plt.scatter(t_test, y_estimate, label = "Estimate values")
-    if(dataset_name == "covid"):
-        plt.xticks(t, rotation=0)
-    else:
-        plt.xticks(t, rotation=90)
+    # if(dataset_name != "covid"):
+    #     plt.xticks(t, rotation=90)
     plt.legend()
     plt.xlabel(f'{x_axis_label_name}')
     plt.ylabel(f'{y_axis_label_name}')
     x0, xmax = plt.xlim()
     y0, ymax = plt.ylim()
-    text_x_pos = 40 if dataset_name == "covid" else 2002
+    text_x_pos = 270 if dataset_name == "covid" else 2002
     text_y_pos = y0 + (ymax - y0)/30
-    plt.text(text_x_pos, text_y_pos, "Mean error: {:e} \nStandard deviation: {:e}".format(mean_error, error_std), bbox=dict(boxstyle="round",
+    plt.text(text_x_pos, text_y_pos, "Mean error: {:e} \nStandard deviation: {:e} \nRunning time: {:e} sec".format(mean_error, error_std, elapsed), bbox=dict(boxstyle="round",
                    ec=(1., 0.5, 0.5),
                    fc=(1., 0.8, 0.8),
                    ))
+    # plt.grid(True)
     plt.show()
 
 if __name__ == '__main__':
