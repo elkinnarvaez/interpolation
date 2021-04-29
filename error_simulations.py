@@ -17,7 +17,7 @@ def main():
 
     valid = False
     interpolation_method = False
-    print("1. Monomial interpolation (using gauss method)")
+    print("1. Monomial interpolation")
     print("2. Lagrange interpolation")
     print("3. Newton interpolation")
     print("4. Piecewise interpolation")
@@ -29,6 +29,8 @@ def main():
             valid = True
 
     dataset_name = "covid"
+    x_axis_label_name = "Día"
+    y_axis_label_name = "Ocupación UCI Covid-19"
     if(interpolation_method != 4):
         valid = False
         print("1. death_rate.csv")
@@ -39,12 +41,18 @@ def main():
             if(option == 1):
                 dataset_name = "death_rate"
                 valid = True
+                y_axis_label_name = "Death rate (per 1000 people)"
+                x_axis_label_name = "Year"
             elif(option == 2):
                 dataset_name = "GDP"
                 valid = True
+                y_axis_label_name = "GDP (US$)"
+                x_axis_label_name = "Year"
             elif(option == 3):
                 dataset_name = "population"
                 valid = True
+                y_axis_label_name = "Population"
+                x_axis_label_name = "Year"
             else:
                 print("Invalid option. Please try again.")
     else:
@@ -71,10 +79,14 @@ def main():
                 print("Invalid option. Please try again.")
 
     # Data retrieving from local file
-    country = "Colombia"
     data = pd.read_csv(f"datasets/{dataset_name}.csv")
     df = None
     if(dataset_name != "covid"):
+        country = None
+        if(dataset_name == "death_rate"):
+            country = "South Africa" # Russian Federation, South Africa
+        elif(dataset_name == "GDP"):
+            country = "Germany" # Colombia, Germany
         df = get_dataframe_wbdata(data, country, 1960, 2018)
     else:
         df = get_dataframe_covid(data)
@@ -84,11 +96,11 @@ def main():
         transform(t, -1960)
 
     # Train test splitting
-    t_train, y_train, t_test, y_test = train_test_splitting(t, y, 0.1)
+    t_train, y_train, t_test, y_test = train_test_splitting(t, y, 0.30)
 
     # Interpolation computation
     start = time.time()
-    x = None # This variable will store the result of each method. In the case of the piecewise interpolation, x will be a matrix of parameters
+    x = None # This variable will store the result that returns each method. In the case of the piecewise interpolation, x will be a matrix of parameters
     if(interpolation_method == 1):
         x = monomial_interpolation(t_train, y_train)
     elif(interpolation_method == 2):
@@ -156,8 +168,8 @@ def main():
         # plt.scatter(t_test, y_estimate, label = "Estimate values")
     plt.xticks(t, rotation=90)
     plt.legend()
-    plt.xlabel(f'Year')
-    plt.ylabel(f'Y axis')
+    plt.xlabel(f'{x_axis_label_name}')
+    plt.ylabel(f'{y_axis_label_name}')
     # x0, xmax = plt.xlim()
     y0, ymax = plt.ylim()
     plt.text(2002, y0 + (ymax - y0)/5, "Mean error: {:e} \nStandard deviation: {:e}".format(mean_error, error_std), bbox=dict(boxstyle="round",
@@ -167,4 +179,12 @@ def main():
     plt.show()
 
 if __name__ == '__main__':
+    # t, y = [0, 1, 2, 3, 4], [0, 1, 4, 3, 6]
+    # x = piecewise_interpolation(t, y)
+    # print(x)
+    # print(piecewise_evaluation([1.5, 2.5], t, x))
+
+    # t, y = [-2, 0, 1], [-27, -1, 0]
+    # x = newton_interpolation(t, y)
+    # print(x)
     main()
