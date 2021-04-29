@@ -167,13 +167,4 @@ def main():
     plt.show()
 
 if __name__ == '__main__':
-    # t, y = [0, 1, 2, 3, 4], [0, 1, 4, 3, 6]
-    # x = piecewise_interpolation(t, y)
-    # print(x)
-    # print(piecewise_evaluation([1.5, 2.5], t, x))
-
-    # t, y = [-2, 0, 1], [-27, -1, 0]
-    # x = newton_interpolation(t, y)
-    # print(x)
-
     main()

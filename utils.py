@@ -43,11 +43,24 @@ def filter_by_odd_pos(a):
             odd.append(a[i])
     return odd
 
-def train_test_splitting(t, y, hop):
+def filter_by_indices(a, indices):
+    ans = list()
+    for i in indices:
+        ans.append(a[i])
+    return ans
+
+def train_test_splitting(t, y, p):
     n = len(t)
     t_train, y_train, t_test, y_test = list(), list(), list(), list()
-    t_train, y_train = filter_by_even_pos(t), filter_by_even_pos(y)
-    t_test, y_test = filter_by_odd_pos(t), filter_by_odd_pos(y)
+    n_train = int(p*n)
+    n_test = n - n_train
+    train_indices = list(map(int, np.linspace(0, n - 1, num = n_train)))
+    test_indices = list()
+    for i in range(n):
+        if(i not in train_indices):
+            test_indices.append(i)
+    t_train, y_train = filter_by_indices(t, train_indices), filter_by_indices(y, train_indices)
+    t_test, y_test = filter_by_indices(t, test_indices), filter_by_indices(y, test_indices)
     return t_train, y_train, t_test, y_test
 
 def transform(a, d):
