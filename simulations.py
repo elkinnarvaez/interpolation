@@ -49,23 +49,27 @@ def main():
             print("Invalid option. Please try again.")
     while(more_simulations):
         interpolation_method = False
-        print("1. Monomial interpolation")
-        print("2. Lagrange interpolation")
-        print("3. Newton interpolation")
+        if(dataset_name != "covid"):
+            print("1. Monomial interpolation")
+            print("2. Lagrange interpolation")
+            print("3. Newton interpolation")
         print("4. Piecewise interpolation")
         interpolation_method = int(input("Please choose the method you want to work with: "))
-        if(interpolation_method < 1 or interpolation_method > 4):
+        if(dataset_name == "covid"):
+            if(interpolation_method != 4):
+                more_simulations = False
+                continue
+        elif(interpolation_method < 1 or interpolation_method > 4):
             more_simulations = False
             continue
+        if(interpolation_method == 1):
+            labels.append("Monomial interpolation")
+        elif(interpolation_method == 2):
+            labels.append("Lagrange interpolation")
+        elif(interpolation_method == 3):
+            labels.append("Newton interpolation")
         else:
-            if(interpolation_method == 1):
-                labels.append("Monomial interpolation")
-            elif(interpolation_method == 2):
-                labels.append("Lagrange interpolation")
-            elif(interpolation_method == 3):
-                labels.append("Newton interpolation")
-            else:
-                labels.append("Piecewise interpolation")
+            labels.append("Piecewise interpolation")
 
         # Data retrieving from local file
         data = pd.read_csv(f"datasets/{dataset_name}.csv")
