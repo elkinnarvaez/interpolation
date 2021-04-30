@@ -190,7 +190,7 @@ def main():
         # plt.scatter(t_test, y_estimate, label = "Estimate values")
     # if(dataset_name != "covid"):
     #     plt.xticks(t, rotation=90)
-    leg = plt.legend()
+    plt.legend()
     plt.xlabel(f'{x_axis_label_name}')
     plt.ylabel(f'{y_axis_label_name}')
     x0, xmax = plt.xlim()
