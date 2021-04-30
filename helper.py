@@ -1,7 +1,7 @@
 import  numpy as np
 import pandas as pd
 
-def build_monomial_matrix(n, m, t):
+def build_polynomial_matrix(n, m, t):
     A = np.array([[None for _ in range(n)] for _ in range(m)], dtype='float')
     for i in range(m):
         for j in range(n):

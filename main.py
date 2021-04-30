@@ -4,8 +4,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from utils import get_axes_values, transform, get_dataframe_wbdata, get_dataframe_covid, abs_error, train_test_splitting
-from interpolation import monomial_interpolation, lagrange_interpolation, newton_interpolation, piecewise_interpolation
-from interpolation_evaluation import monomial_evaluation, lagrange_evaluation, newton_evaluation, piecewise_evaluation
+from interpolation import polynomial_interpolation, lagrange_interpolation, newton_interpolation, piecewise_interpolation
+from interpolation_evaluation import polynomial_evaluation, lagrange_evaluation, newton_evaluation, piecewise_evaluation
 import time
 
 def main():
@@ -17,7 +17,7 @@ def main():
 
     valid = False
     interpolation_method = False
-    print("1. Monomial interpolation")
+    print("1. Polynomial interpolation")
     print("2. Lagrange interpolation")
     print("3. Newton interpolation")
     print("4. Piecewise interpolation")
@@ -120,7 +120,7 @@ def main():
     start = time.time()
     x = None # This variable will store the result that returns each method. In the case of the piecewise interpolation, x will be a matrix of parameters
     if(interpolation_method == 1):
-        x = monomial_interpolation(t_train, y_train)
+        x = polynomial_interpolation(t_train, y_train)
     elif(interpolation_method == 2):
         x = lagrange_interpolation(t_train, y_train)
     elif(interpolation_method == 3):
@@ -134,10 +134,10 @@ def main():
     y_continuous = None
     y_estimate = None
     if(interpolation_method == 1):
-        # Monomial evaluation
+        # Polynomial evaluation
         t_continuous = list(np.linspace(t[0], t[len(t) - 1], num = 1000))
-        y_continuous = list(monomial_evaluation(t_continuous, x).T[0])
-        y_estimate = list(monomial_evaluation(t_test, x).T[0])
+        y_continuous = list(polynomial_evaluation(t_continuous, x).T[0])
+        y_estimate = list(polynomial_evaluation(t_test, x).T[0])
     elif(interpolation_method == 2):
         # Lagrange evaluation
         start = time.time()

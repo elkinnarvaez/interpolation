@@ -1,11 +1,11 @@
 import  numpy as np
 import pandas as pd
-from helper import build_monomial_matrix, build_lagrange_matrix, build_newton_matrix
+from helper import build_polynomial_matrix, build_lagrange_matrix, build_newton_matrix
 
-def monomial_evaluation(t, x):
+def polynomial_evaluation(t, x):
     n = len(x)
     m = len(t)
-    A = build_monomial_matrix(n, m, t)
+    A = build_polynomial_matrix(n, m, t)
     b = np.matmul(A, x)
     return b
 
