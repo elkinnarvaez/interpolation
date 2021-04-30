@@ -28,9 +28,9 @@ def main():
         else:
             valid = True
 
-    dataset_name = "covid"
-    x_axis_label_name = "Día"
-    y_axis_label_name = "Ocupación UCI Covid-19"
+    dataset_name = None
+    x_axis_label_name = None
+    y_axis_label_name = None
     if(interpolation_method != 4):
         valid = False
         print("1. death_rate.csv")
@@ -66,27 +66,36 @@ def main():
             if(option == 1):
                 dataset_name = "death_rate"
                 valid = True
+                y_axis_label_name = "Death rate (per 1000 people)"
+                x_axis_label_name = "Year"
             elif(option == 2):
                 dataset_name = "GDP"
                 valid = True
+                y_axis_label_name = "GDP (US$)"
+                x_axis_label_name = "Year"
             elif(option == 3):
                 dataset_name = "population"
                 valid = True
+                y_axis_label_name = "Population"
+                x_axis_label_name = "Year"
             elif(option == 4):
                 dataset_name = "covid"
                 valid = True
+                y_axis_label_name = "Ocupación UCI Covid-19"
+                x_axis_label_name = "Día"
             else:
                 print("Invalid option. Please try again.")
 
     # Data retrieving from local file
     data = pd.read_csv(f"datasets/{dataset_name}.csv")
     df = None
+    scalar_offset = 1.15
     if(dataset_name != "covid"):
         country = None
         if(dataset_name == "death_rate"):
-            country = "South Africa" # Russian Federation, South Africa
+            country = "Russian Federation" # Russian Federation, South Africa
         elif(dataset_name == "GDP"):
-            country = "Germany" # Colombia, Germany
+            country = "Colombia" # Colombia, Germany
         else:
             country = "Romania" # Romania, Curacao
         df = get_dataframe_wbdata(data, country, 1960, 2018)
@@ -186,8 +195,8 @@ def main():
     plt.ylabel(f'{y_axis_label_name}')
     x0, xmax = plt.xlim()
     y0, ymax = plt.ylim()
-    text_x_pos = 270 if dataset_name == "covid" else 1980
-    text_y_pos = y0 + (ymax - y0)/1.15
+    text_x_pos = 145 if dataset_name == "covid" else 1980
+    text_y_pos = y0 + (ymax - y0)/scalar_offset
     plt.text(text_x_pos, text_y_pos, "Mean error: {:e} \nStandard deviation: {:e} \nRunning time: {:e} sec".format(mean_error, error_std, elapsed), bbox=dict(boxstyle="round",
                    ec=(1., 0.5, 0.5),
                    fc=(1., 0.8, 0.8),
