@@ -89,7 +89,7 @@ def main():
     # Data retrieving from local file
     data = pd.read_csv(f"datasets/{dataset_name}.csv")
     df = None
-    scalar_offset = 1.15
+    scalar_offset = 1.75
     if(dataset_name != "covid"):
         country = None
         if(dataset_name == "death_rate"):
@@ -140,6 +140,10 @@ def main():
         y_estimate = list(monomial_evaluation(t_test, x).T[0])
     elif(interpolation_method == 2):
         # Lagrange evaluation
+        start = time.time()
+        lagrange_evaluation(t_train, t_train, x)
+        end = time.time()
+        elapsed = end - start
         t_continuous = list(np.linspace(t[0], t[len(t) - 1], num = 1000))
         y_continuous = list(lagrange_evaluation(t_continuous, t_train, x).T[0])
         y_estimate = list(lagrange_evaluation(t_test, t_train, x).T[0])
