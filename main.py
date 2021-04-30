@@ -184,19 +184,18 @@ def main():
     leg = plt.legend()
     plt.xlabel(f'{x_axis_label_name}')
     plt.ylabel(f'{y_axis_label_name}')
-    # x0, xmax = plt.xlim()
-    # y0, ymax = plt.ylim()
-    # text_x_pos = 270 if dataset_name == "covid" else 2002
-    # text_y_pos = y0 + (ymax - y0)/30
-    # plt.text(text_x_pos, text_y_pos, "Mean error: {:e} \nStandard deviation: {:e} \nRunning time: {:e} sec".format(mean_error, error_std, elapsed), bbox=dict(boxstyle="round",
-    #                ec=(1., 0.5, 0.5),
-    #                fc=(1., 0.8, 0.8),
-    #                ), xycoords='axes pixels')
-    plt.gcf().canvas.draw()
-    leg_pos = leg.get_window_extent()
-    print(leg_pos)
-    plt.annotate("Mean error: {:e} \nStandard deviation: {:e} \nRunning time: {:e} sec".format(mean_error, error_std, elapsed), (leg_pos.p1[0] + 10, leg_pos.p0[1] + 11), 
-            xycoords='figure pixels', bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.8, 0.8)), zorder=9)
+    x0, xmax = plt.xlim()
+    y0, ymax = plt.ylim()
+    text_x_pos = 270 if dataset_name == "covid" else 1980
+    text_y_pos = y0 + (ymax - y0)/1.15
+    plt.text(text_x_pos, text_y_pos, "Mean error: {:e} \nStandard deviation: {:e} \nRunning time: {:e} sec".format(mean_error, error_std, elapsed), bbox=dict(boxstyle="round",
+                   ec=(1., 0.5, 0.5),
+                   fc=(1., 0.8, 0.8),
+                   ))
+    # plt.gcf().canvas.draw()
+    # leg_pos = leg.get_window_extent()
+    # plt.annotate("Mean error: {:e} \nStandard deviation: {:e} \nRunning time: {:e} sec".format(mean_error, error_std, elapsed), (leg_pos.p1[0] + 7, leg_pos.p0[1] + 11), 
+    #         xycoords='figure pixels', bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.9, 0.9)), zorder=9).set_alpha(1)
     plt.show()
 
 if __name__ == '__main__':
